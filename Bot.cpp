@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <ctime>
 #include "Bot.h"
 
 
@@ -17,7 +18,11 @@ Bot::~Bot()
 
 void Bot::playGame()
 {
-
+    std::srand(std::time(0)); // use current time as seed for random generator
+    for (int i = 0; i < 100; i++)
+    {
+        randomes[i] = std::rand();
+    }
     parser.initParser(this);
     parser.parseInput();
 }    //plays a single game of Warlight
@@ -104,11 +109,33 @@ void Bot::executeAction()
     }
     if (phase == "place_armies")
     {
-        cout << botName << " place_armies " << ownedRegions[0] << " " << armiesLeft <<"\n";
+        int i = 0;
+        
+        while(armiesLeft > 0)
+        {
+            cout << botName << " place_armies " << ownedRegions[i] << " " << 1 << ",";
+            i= (i+1) % ownedRegions.size();
+            setArmiesLeft(--armiesLeft);
+        }
+        cout << "\n";
     }
     if (phase == "attack/transfer")
     {
-        cout << botName << " attack/transfer " << ownedRegions[0] << " " << regions[ownedRegions[0]].getNeighbors()[0] << " "<< regions[ownedRegions[0]].getArmies()/2 << "\n";
+        std::srand(randomes[randCount++]);
+        
+        int i = 0;
+        int temp = 0;
+        for(i = 0; i < ownedRegions.size(); i++)
+        {
+            if(regions[ownedRegions[i]].getArmies() > 2)
+            {
+                temp = std::rand() %  regions[ownedRegions[i]].getNeighbors().size();
+                cout << botName << " attack/transfer " << ownedRegions[i] << " " << regions[ownedRegions[i]].getNeighbors()[temp] << " " << 3 << ",";
+                regions[ownedRegions[i]].setArmies(regions[ownedRegions[i]].getArmies() - 3);
+                
+            }
+        }
+        cout << "\n";
     }
     phase.clear();
 }

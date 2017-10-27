@@ -20,7 +20,9 @@ class Bot
     string opponentBotName;
     vector<int> startingRegionsreceived;
     vector<int> ownedRegions;
+    int randomes[100];
     int armiesLeft;
+    int randCount;
     Parser parser;
     string phase;
     public:
