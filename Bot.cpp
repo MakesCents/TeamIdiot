@@ -24,7 +24,7 @@ void Bot::playGame()
 
 void Bot::makeMoves()
 {
-
+    cout << "Hi!!\n";
 }   //makes moves for a single turn
 void Bot::endTurn()
 {
@@ -108,8 +108,7 @@ void Bot::executeAction()
     }
     if (phase == "attack/transfer")
     {
-            cout << "No moves\n" ;
-//          cout << botName << " attack/transfer " << from << " " << to << " "<< armiesMoved;
+        cout << botName << " attack/transfer " << ownedRegions[0] << " " << regions[ownedRegions[0]].getNeighbors()[0] << " "<< regions[ownedRegions[0]].getArmies()/2 << "\n";
     }
     phase.clear();
 }
