@@ -2,7 +2,7 @@
 #include <string>
 #include "Bot.h"
 
-
+superRegionModify = {1.1, 1.3, 1.0, 1.2, 0.9, 1.4}
 
 Bot::Bot()
 {
@@ -57,6 +57,7 @@ void Bot::addSuperRegion(unsigned noSuperRegion, int reward)
             superRegions.push_back(SuperRegion());
         }
     superRegions[noSuperRegion]  = SuperRegion(reward);
+    
 }
 
 void Bot::setBotName(string name)
@@ -92,9 +93,37 @@ void Bot::executeAction()
         return;
     if (phase == "pickPreferredRegion")
     {
+        //Step 1. Give all 6 regions a rank based on which region they are 
+        //(start with 1 before evolution, to make certain regions inside a super-region more desirable)
+        //Step 2. Increase the value depending on which super-region they're in
+        //(Make higher rewarding continents less valuable and lower rewarding continents more valuable since
+        // they can be defended easier)
+        //Step 3. Increase the value depending on how many shared super-regions you have
+        //(Having 2 in NA is more important than having 1 in Au and 1 in SA possibly)
+        double startScore[6];
+        int countShared[6] = {0, 0, 0, 0, 0, 0}
         unsigned i,nbAns=0;
-        for (i = 0; i< startingRegionsreceived.size() && nbAns<6; i++)
+        unsigned j = 0;
+        for(i = 0; i < startingRegionsreceived.size(); i++)
         {
+            for(j = 0; j < startingRegionsreceived.size(); j++)
+            {
+                if(getSuperRegion(startingRegionsreceived[j]) == getSuperRegion(startingRegionsreceived[i]))
+                {
+                    countShared[i]++;
+                }
+            }
+            //startScore = regionScore * superRegionScore * sharedScore (or add?)
+            startScore[i] = 1 * startScore[startingRegionsreceived[i]-1] * (1 + countShared[i] * 0.1);
+            //We want to prevent them from getting shared regions anyways, but we can 
+            //make the sharedScore a changeable parameter
+        }
+        
+        //Need to find a way to sort the indexes (probably with an int array)
+        //Then print out startingRegionsreceived[sortedIndex[i]], where i goes from 0 to 5
+        for(i = 0; i < startingRegionsreived.size() && nbAns < 6; i++)
+        {
+            //print startingRegionsreceived[i] where i is index of startScore with greatest -> lowest value
             cout << startingRegionsreceived[i];
             nbAns++;
             if (nbAns < 6)
@@ -108,6 +137,13 @@ void Bot::executeAction()
     }
     if (phase == "place_armies")
     {
+        //Want to consider value of the regions along with how much threat they're under
+        //Regions surrounded by allies are under no threat, so don't worry about them
+        //Regions next to neutral regions aren't under much threat, but more than an ally
+        //Enemy regions produce threat based on how many troops are in it along with how
+        //many troops in their neighboring allied regions
+        //We're doing this simply, so don't go past one layer (ie stop looking once you find enemy "islands")
+        //Consider number of troops, value of region, threat it feels
         int i = 0;
         
         while(armiesLeft > 0)
@@ -118,6 +154,15 @@ void Bot::executeAction()
         }
         cout << "\n";
     }
+    //Firstly if attacking a neutral, wait for 4 if possible
+    //The value of a neutral is less than the value of an enemy
+    //When considering if we should attack: consider how much threat the region produces combined with the
+    //Likelihood of success, threat depends on our internal importance metric combined with number of troops it
+    //holds along with reduced strength threat generated solely from it's adjacent neighbors owned by the enemy
+    //Expanding should be done if it doesn't hurt our position so we have 4+ in the expander
+    
+
+    //For attacking we should 
     if (phase == "attack/transfer")
     {
         std::srand(randomes[randCount++]);

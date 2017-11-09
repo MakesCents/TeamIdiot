@@ -25,6 +25,7 @@ class Bot
     int randCount;
     Parser parser;
     string phase;
+    double superRegionModify[5];
     public:
         Bot();
         virtual ~Bot();
