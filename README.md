@@ -20,10 +20,10 @@ Also this is written assuming you use cygwin/bash
 7. in go(0 remove path ending from both IORobot() declarations
 8. Remove all things in saveGame() except maybe first couple lines
 9. Go back to main directory for engine
-10. Do these commands:
-mkdir bin
-find . -type f\( -name "*.java" \) > sources.txt 
-javac -d bin -cp bin @sources.txt
+10. Do these commands:   
+mkdir bin   
+find . -type f\( -name "*.java" \) > sources.txt   
+javac -d bin -cp bin @sources.txt      
 
 Then to run go to bin and use the following command to run 2 starter bots
 java main.RunGame 0 0 0 "java bot.BotStarter" "java bot.BotStarter" 2>err.txt 1>out.txt
