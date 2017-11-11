@@ -3,6 +3,7 @@
 #include "Bot.h"
 
 superRegionModify = {1.1, 1.3, 1.0, 1.2, 0.9, 1.4}
+//We also want to have a "is on superregion border" function/structure
 
 Bot::Bot()
 {

@@ -2,6 +2,6 @@
 
 int main()
 {
-    
+    system("./runGame.sh");
     return 0;
 }
