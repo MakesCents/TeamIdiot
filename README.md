@@ -8,8 +8,7 @@ Appreciate it
 We want a good grade  
 
 
-K. So you want to run this with the engine? Sorry not going to upload the
-engine because that's too large.
+K. So you want to run this with the engine? 
 Also this is written assuming you use cygwin/bash
 1. Get the engine into a file near the project
 2. Make sure you have javac and java on your path
