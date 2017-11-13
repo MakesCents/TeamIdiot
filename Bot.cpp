@@ -3,7 +3,28 @@
 #include "Bot.h"
 
 superRegionModify = {1.1, 1.3, 1.0, 1.2, 0.9, 1.4}
+//Quick definition: when I say landlocked it means surrounded by allies. Not landlocked means there's at least 1
+// Enemy or neutral adjacent to the region.
+// Also superregion border is one of the x regions which holds the border between superregions
+// Whereas border means the series of connected owned regions which often surround landlocked regions
 //We also want to have a "is on superregion border" function/structure
+//Also make a structure/function for internal borders, so a list of all our regions without/with enemy/neutral neighbors
+//Our placement theory would be to prioritize the ones with enemy neighbors, so the "threat" of landlocked regions of ours
+//would basically be zero
+//Our transfer theory could be to move troops wherever we feel threat. If a neighbor of one of our landlocked regions is not 
+//landlocked, move to them. More importantly we want to minimize threat, so we want to move them to the neighbor with the highest
+//threat. If surrounded by landlocked regions maybe we could try to find the shortest path to a border region? Or do we assume
+//we never get to that point since our placement strategy only places on borders, and we only attack neutrals/enemies?
+//
+//Our attacking strategy should probably be several steps: Determine who we want to attack, how much we should attack,
+//and if we want to attack. We could probably implement the if as part of how much, since we'd decide to commit 0
+//Probably never want to commit all in a losing scenario
+//Do we want to only commit as many as it takes to win some percent of the time?
+//Which aspects should be evolvable?
+
+//Probable evolvable stuff:
+//superRegionModify score, region importances, shared super-region importance value, minimum % attack win chance(calculate odds of winning sending all, all-1 ...),
+//max percent of regions troops sent on attack, minimum troop count for attack
 
 Bot::Bot()
 {
