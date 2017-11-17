@@ -204,19 +204,31 @@ void Bot::executeAction()
     //For attacking we should 
     if (phase == "attack/transfer")
     {
-        std::srand(randomes[randCount++]);
-        int i = 0;
-        int temp = 0;
-        for(i = 0; i < ownedRegions.size(); i++)
+        int i;
+        for(i = 0; i < ownedRegions.size();i++)
         {
-            if(regions[ownedRegions[i]].getArmies() > 3)
+            if(noEnemies(i) == true)
             {
-                temp = std::rand() % regions[ownedRegions[i]].getNeighbors().size();
-                cout << botName << " attack/transfer " << ownedRegions[i] << " " << regions[ownedRegions[i]].getNeighbors()[temp] << " " << 4 << ",";
-                regions[ownedRegions[i]].setArmies(regions[ownedRegions[i]].getArmies()-4;
+                // transfer stuff
+            }
+            else
+            {
+                // attack stuff
             }
         }
-        cout << "\n";
+        // std::srand(randomes[randCount++]);
+        // int i = 0;
+        // int temp = 0;
+        // for(i = 0; i < ownedRegions.size(); i++)
+        // {
+        //     if(regions[ownedRegions[i]].getArmies() > 3)
+        //     {
+        //         temp = std::rand() % regions[ownedRegions[i]].getNeighbors().size();
+        //         cout << botName << " attack/transfer " << ownedRegions[i] << " " << regions[ownedRegions[i]].getNeighbors()[temp] << " " << 4 << ",";
+        //         regions[ownedRegions[i]].setArmies(regions[ownedRegions[i]].getArmies()-4;
+        //     }
+        // }
+        // cout << "\n";
     }
     phase.clear();
 }
