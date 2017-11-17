@@ -109,7 +109,6 @@ void Bot::setPhase(string pPhase)
 {
     phase=pPhase;
 }
-
 void Bot::executeAction()
 {
     if (phase=="")
@@ -124,22 +123,28 @@ void Bot::executeAction()
         //Step 3. Increase the value depending on how many shared super-regions you have
         //(Having 2 in NA is more important than having 1 in Au and 1 in SA possibly)
         double startScore[6];
+        int startRegionIndex[6];
         int countShared[6] = {0, 0, 0, 0, 0, 0}
         unsigned i,nbAns=0;
         unsigned j = 0;
+        unsigned index = 0;
         for(i = 0; i < startingRegionsreceived.size(); i++)
         {
-            for(j = 0; j < startingRegionsreceived.size(); j++)
-            {
-                if(getSuperRegion(startingRegionsreceived[j]) == getSuperRegion(startingRegionsreceived[i]))
-                {
-                    countShared[i]++;
+            //Assume that starting score values are determined outside of program and passed as a parameter to each 
+            // Region when it is created
+           startScore[i] = getStartPriority(startingRegionsreceived[i]);
+            
+        }
+
+        for (i = 0; i < startScore.size; i++){
+            for (j = 0; j < startScore.size; j++){
+                index = 0;
+                if (startScore[j] > startScore[index]){
+                    index = j;
                 }
             }
-            //startScore = regionScore * superRegionScore * sharedScore (or add?)
-            startScore[i] = 1 * startScore[startingRegionsreceived[i]-1] * (1 + countShared[i] * 0.1);
-            //We want to prevent them from getting shared regions anyways, but we can 
-            //make the sharedScore a changeable parameter
+            startScore[index] = 0;
+            startRegionIndex[i] = index;
         }
         
         //Need to find a way to sort the indexes (probably with an int array)
@@ -147,7 +152,7 @@ void Bot::executeAction()
         for(i = 0; i < startingRegionsreived.size() && nbAns < 6; i++)
         {
             //print startingRegionsreceived[i] where i is index of startScore with greatest -> lowest value
-            cout << startingRegionsreceived[i];
+            cout << startingRegionsreceived[startRegionIndex[i]];
             nbAns++;
             if (nbAns < 6)
                 cout << " ";
@@ -232,7 +237,7 @@ void Bot::updateRegion(unsigned noRegion, string playerName, int nbArmies)
     regions[noRegion].setOwner(playerName);
     if (playerName == botName)
     {
-        
+
         ownedRegions.push_back(noRegion);
     }
 }
