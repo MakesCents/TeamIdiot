@@ -109,6 +109,7 @@ void Bot::setPhase(string pPhase)
 {
     phase=pPhase;
 }
+
 void Bot::executeAction()
 {
     if (phase=="")
@@ -167,11 +168,22 @@ void Bot::executeAction()
         //We're doing this simply, so don't go past one layer (ie stop looking once you find enemy "islands")
         //Consider number of troops, value of region, threat it feels
         int i = 0;
-        
+        // Vector which keeps track of all 
+        vector<double> edgeRegionThreat;
         while(armiesLeft > 0)
         {
-            cout << botName << " place_armies " << ownedRegions[i] << " " << 1 << ",";
-            i= (i+1) % ownedRegions.size();
+            for(i = 0; i < edgeRegions.size(); i++)
+            {
+                edgeRegionThreat[i] = 0;
+                for(j = 0; j < regions[edgeRegions[i]].getNeighbors().size(); j++)
+                {
+                    if(regions[regions[edgeRegions[i]].getNeighbors()[j]].getOwner() == opponentBotName)
+                    {
+                        edgeRegionThreat[i] += (regions[regions[edgeRegions[i]].getNeighbors()[j]].getArmies())/regions[edgeRegions[i]].getArmies;
+                    }
+                }
+            }
+            cout << botName << " place_armies " << ownedRegions[maxVal(edgeRegionThreat)] << " " << 1 << ",";
             setArmiesLeft(--armiesLeft);
         }
         cout << "\n";
@@ -203,7 +215,17 @@ void Bot::executeAction()
     }
     phase.clear();
 }
-
+int maxVal(vector<double> vec)
+{
+    int i = 0;
+    int result = 0;
+    for(i = 1; i < vec.size(); i++)
+    {
+        if (vec[i] > vec[result])
+            result = i;
+    }
+    return result;
+}
 void Bot::updateRegion(unsigned noRegion, string playerName, int nbArmies)
 {
     regions[noRegion].setArmies(nbArmies);
