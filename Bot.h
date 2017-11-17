@@ -20,18 +20,19 @@ class Bot
     string opponentBotName;
     vector<int> startingRegionsreceived;
     vector<int> ownedRegions;
+    vector<int> edgeRegions;
     int randomes[100];
     int armiesLeft;
     int randCount;
     Parser parser;
     string phase;
-    double superRegionModify[5];
+    double superRegionModify[6];
     public:
         Bot();
         virtual ~Bot();
 
     void playGame();    //plays a single game of Warlight
-
+    int maxVal(vector<double> vec);   //
     void makeMoves();   //makes moves for a single turn
     void endTurn();     //indicates to the engine that it has made its moves
     void addRegion(unsigned noRegion, unsigned noSuperRegion);
