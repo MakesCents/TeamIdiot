@@ -132,7 +132,7 @@ void Bot::executeAction()
         {
             //Assume that starting score values are determined outside of program and passed as a parameter to each 
             // Region when it is created
-           startScore[i] = getStartPriority(startingRegionsreceived[i]);
+           startScore[i] = getStartPriority(startingRegionsreceived[i]); //STILL HAVE TO ADD CODE TO READ IN VALUES FOR PRIORITY/SCORE WHEN REGION IS CREATED
             
         }
 

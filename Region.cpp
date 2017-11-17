@@ -12,6 +12,7 @@ Region::Region(int pId, int pSuperRegion)
 {
     this->superRegion = pSuperRegion;
     id = pId;
+    startPriority = 1;
 }
 
 Region::~Region()
