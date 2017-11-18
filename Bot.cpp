@@ -127,7 +127,7 @@ void Bot::executeAction()
         {
             //Assume that starting score values are determined outside of program and passed as a parameter to each 
             // Region when it is created
-           startScore[i] = getStartPriority(startingRegionsreceived[i]);
+           startScore[i] = getStartPriority(startingRegionsreceived[i]); //STILL HAVE TO ADD CODE TO READ IN VALUES FOR PRIORITY/SCORE WHEN REGION IS CREATED
             
         }
 
@@ -207,6 +207,24 @@ void Bot::executeAction()
             if(noEnemies(i) == true)
             {
                 // transfer stuff
+                //Assume that all of the provinces have been assingned a threat value
+                //Send a commensurate amount of troops to locations which have a higher threat
+                
+                double total_threat_diff = 0, threat_diff = 0;
+
+                for (j = 0; j < regions[i].getNeighbors().size(); j++){
+                    if (regions[i].getThreat() < regions[i].getNeighbors()[j].getThreat()){
+                        total_threat_diff += regions[i].getNeighbors()[j].getThreat() - regions[i].getThreat()
+                    }
+                }
+
+                for (j = 0; j < regions[i].getNeighbors().size(); j++){
+                    if (regions[i].getThreat() < regions[i].getNeighbors()[j].getThreat()){
+                        threat_diff = regions[i].getNeighbors()[j].getThreat() - regions[i].getThreat();
+                        cout << regions[i] << " " << regions[i].getNeighbors[j] << " " << armies * (threat_diff/total_threat_diff) << ",";
+                    }
+                }
+
             }
             else
             {

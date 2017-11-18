@@ -12,6 +12,7 @@ Region::Region(int pId, int pSuperRegion)
 {
     this->superRegion = pSuperRegion;
     id = pId;
+    startPriority = 1;
 }
 
 Region::~Region()
@@ -57,4 +58,10 @@ void Region::setStartPriority(double priority){
     startPriority = priority;
 }
 
+double Region::getThreat(){
+    return roundThreat;
+}
 
+void Region::setThreat(double threat){
+    roundThreat = threat;
+}
