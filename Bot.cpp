@@ -42,6 +42,18 @@ void Bot::readInFile(char *argv[])
     int  nameLength = (int) strlen(argv[1]);
     Ifile = (char *) calloc(nameLength + 1, sizeof(char));
     strcpy(Ifile, argv[1]);
+    int i;
+    FILE *inpfl;
+    char tmp[1024];
+    int err;
+    
+    if( (inpfl = fopen(Ifile,"r")) == NULL){
+      printf("error in opening file %s \n", Ifile);
+      exit(1);
+    }
+
+
+    err = fscanf(inpfl,"%d",placethinghere);//Do this for every thing you want to read in
 }
 void Bot::playGame(char *argv[])
 {   
