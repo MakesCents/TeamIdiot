@@ -39,11 +39,6 @@ Bot::~Bot()
 
 void Bot::playGame()
 {
-    randCount = 0;
-    for (int i = 0; i < 100; i++)
-    {
-        randomes[i] = std::rand();
-    }
     parser.initParser(this);
     parser.parseInput();
 }    //plays a single game of Warlight
@@ -204,7 +199,9 @@ void Bot::executeAction()
     //For attacking we should 
     if (phase == "attack/transfer")
     {
-        int i;
+        int i, j, currRegion;
+        double expectedResult;
+        //Consider every region
         for(i = 0; i < ownedRegions.size();i++)
         {
             if(noEnemies(i) == true)
@@ -214,6 +211,36 @@ void Bot::executeAction()
             else
             {
                 // attack stuff
+                //Look at all neighbors
+                for(j = 0; j < ownedRegions.getNeighbors().size(); j++)
+                {
+                    currRegion = ownedRegions.getNeighbors()[j];
+                    if(regions[currRegion].getOwner() == opponentBotName)
+                    {
+                        //If an enemy region, consider attacking
+                        //step 1: Determine if we should attack: 
+                        //Consider how many dudes the guy has
+                        //Consider how many neighbors 
+
+                        //Figure out expected result if attacking with all dudes
+                        expectedResult = regions[i].getArmies()-1 * 0.6 - regions[currRegion].getArmies() * 0.7;
+                        if(expectedResult > 0)
+                        {
+                            // Only attack if we can win
+                            
+                        }
+                    }
+                    else if(regions[currRegion].getOwner() == botName)
+                    {
+                        // If an allied region, maybe do something?
+                        
+                    }
+                    else
+                    {
+                        // If neutral expand maybe
+                        
+                    }
+                }
             }
         }
         // std::srand(randomes[randCount++]);
@@ -242,6 +269,16 @@ int maxVal(vector<double> vec)
             result = i;
     }
     return result;
+}
+bool noEnemies(int reg)
+{
+    int j;
+    for(j = 0; j < regions[reg].getNeighbors().size();j++)
+    {
+        if(regions[reg].getNeighbors()[j].getOwner != botName)
+            return false;
+    }
+    return true;
 }
 void Bot::updateRegion(unsigned noRegion, string playerName, int nbArmies)
 {
