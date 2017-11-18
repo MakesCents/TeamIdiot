@@ -29,7 +29,7 @@ class Bot
         Bot();
         virtual ~Bot();
 
-    void playGame();    //plays a single game of Warlight
+    void playGame(char *argv[]);    //plays a single game of Warlight
     int maxVal(vector<double> vec);   //
     void makeMoves();   //makes moves for a single turn
     void endTurn();     //indicates to the engine that it has made its moves

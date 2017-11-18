@@ -36,9 +36,16 @@ Bot::~Bot()
      //printf("dtor\n");
     //dtor
 }
-
-void Bot::playGame()
+void Bot::readInFile(char *argv[])
 {
+    char *Ifile;
+    int  nameLength = (int) strlen(argv[1]);
+    Ifile = (char *) calloc(nameLength + 1, sizeof(char));
+    strcpy(Ifile, argv[1]);
+}
+void Bot::playGame(char *argv[])
+{   
+    readInFile(argv);
     parser.initParser(this);
     parser.parseInput();
 }    //plays a single game of Warlight

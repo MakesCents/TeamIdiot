@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
     else cout << "Unable to open file";
 
     Bot bot;
-    bot.playGame();
+    bot.playGame(argv);
 
     ofstream myFile("file.txt");
     if(myFile.is_open())
