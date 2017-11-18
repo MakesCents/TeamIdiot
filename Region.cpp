@@ -58,4 +58,10 @@ void Region::setStartPriority(double priority){
     startPriority = priority;
 }
 
+double Region::getThreat(){
+    return roundThreat;
+}
 
+void Region::setThreat(double threat){
+    roundThreat = threat;
+}
