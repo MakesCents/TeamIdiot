@@ -39,11 +39,6 @@ Bot::~Bot()
 
 void Bot::playGame()
 {
-    randCount = 0;
-    for (int i = 0; i < 100; i++)
-    {
-        randomes[i] = std::rand();
-    }
     parser.initParser(this);
     parser.parseInput();
 }    //plays a single game of Warlight
@@ -109,7 +104,6 @@ void Bot::setPhase(string pPhase)
 {
     phase=pPhase;
 }
-
 void Bot::executeAction()
 {
     if (phase=="")
@@ -124,22 +118,28 @@ void Bot::executeAction()
         //Step 3. Increase the value depending on how many shared super-regions you have
         //(Having 2 in NA is more important than having 1 in Au and 1 in SA possibly)
         double startScore[6];
+        int startRegionIndex[6];
         int countShared[6] = {0, 0, 0, 0, 0, 0}
         unsigned i,nbAns=0;
         unsigned j = 0;
+        unsigned index = 0;
         for(i = 0; i < startingRegionsreceived.size(); i++)
         {
-            for(j = 0; j < startingRegionsreceived.size(); j++)
-            {
-                if(getSuperRegion(startingRegionsreceived[j]) == getSuperRegion(startingRegionsreceived[i]))
-                {
-                    countShared[i]++;
+            //Assume that starting score values are determined outside of program and passed as a parameter to each 
+            // Region when it is created
+           startScore[i] = getStartPriority(startingRegionsreceived[i]); //STILL HAVE TO ADD CODE TO READ IN VALUES FOR PRIORITY/SCORE WHEN REGION IS CREATED
+            
+        }
+
+        for (i = 0; i < startScore.size; i++){
+            for (j = 0; j < startScore.size; j++){
+                index = 0;
+                if (startScore[j] > startScore[index]){
+                    index = j;
                 }
             }
-            //startScore = regionScore * superRegionScore * sharedScore (or add?)
-            startScore[i] = 1 * startScore[startingRegionsreceived[i]-1] * (1 + countShared[i] * 0.1);
-            //We want to prevent them from getting shared regions anyways, but we can 
-            //make the sharedScore a changeable parameter
+            startScore[index] = 0;
+            startRegionIndex[i] = index;
         }
         
         //Need to find a way to sort the indexes (probably with an int array)
@@ -147,7 +147,7 @@ void Bot::executeAction()
         for(i = 0; i < startingRegionsreived.size() && nbAns < 6; i++)
         {
             //print startingRegionsreceived[i] where i is index of startScore with greatest -> lowest value
-            cout << startingRegionsreceived[i];
+            cout << startingRegionsreceived[startRegionIndex[i]];
             nbAns++;
             if (nbAns < 6)
                 cout << " ";
@@ -199,19 +199,81 @@ void Bot::executeAction()
     //For attacking we should 
     if (phase == "attack/transfer")
     {
-        std::srand(randomes[randCount++]);
-        int i = 0;
-        int temp = 0;
-        for(i = 0; i < ownedRegions.size(); i++)
+        int i, j, currRegion;
+        double expectedResult;
+        //Consider every region
+        for(i = 0; i < ownedRegions.size();i++)
         {
-            if(regions[ownedRegions[i]].getArmies() > 3)
+            if(noEnemies(i) == true)
             {
-                temp = std::rand() % regions[ownedRegions[i]].getNeighbors().size();
-                cout << botName << " attack/transfer " << ownedRegions[i] << " " << regions[ownedRegions[i]].getNeighbors()[temp] << " " << 4 << ",";
-                regions[ownedRegions[i]].setArmies(regions[ownedRegions[i]].getArmies()-4;
+                // transfer stuff
+                //Assume that all of the provinces have been assingned a threat value
+                //Send a commensurate amount of troops to locations which have a higher threat
+                
+                double total_threat_diff = 0, threat_diff = 0;
+
+                for (j = 0; j < regions[i].getNeighbors().size(); j++){
+                    if (regions[i].getThreat() < regions[i].getNeighbors()[j].getThreat()){
+                        total_threat_diff += regions[i].getNeighbors()[j].getThreat() - regions[i].getThreat()
+                    }
+                }
+
+                for (j = 0; j < regions[i].getNeighbors().size(); j++){
+                    if (regions[i].getThreat() < regions[i].getNeighbors()[j].getThreat()){
+                        threat_diff = regions[i].getNeighbors()[j].getThreat() - regions[i].getThreat();
+                        cout << regions[i] << " " << regions[i].getNeighbors[j] << " " << armies * (threat_diff/total_threat_diff) << ",";
+                    }
+                }
+
+            }
+            else
+            {
+                // attack stuff
+                //Look at all neighbors
+                for(j = 0; j < ownedRegions.getNeighbors().size(); j++)
+                {
+                    currRegion = ownedRegions.getNeighbors()[j];
+                    if(regions[currRegion].getOwner() == opponentBotName)
+                    {
+                        //If an enemy region, consider attacking
+                        //step 1: Determine if we should attack: 
+                        //Consider how many dudes the guy has
+                        //Consider how many neighbors 
+
+                        //Figure out expected result if attacking with all dudes
+                        expectedResult = regions[i].getArmies()-1 * 0.6 - regions[currRegion].getArmies() * 0.7;
+                        if(expectedResult > 0)
+                        {
+                            // Only attack if we can win
+                            
+                        }
+                    }
+                    else if(regions[currRegion].getOwner() == botName)
+                    {
+                        // If an allied region, maybe do something?
+                        
+                    }
+                    else
+                    {
+                        // If neutral expand maybe
+                        
+                    }
+                }
             }
         }
-        cout << "\n";
+        // std::srand(randomes[randCount++]);
+        // int i = 0;
+        // int temp = 0;
+        // for(i = 0; i < ownedRegions.size(); i++)
+        // {
+        //     if(regions[ownedRegions[i]].getArmies() > 3)
+        //     {
+        //         temp = std::rand() % regions[ownedRegions[i]].getNeighbors().size();
+        //         cout << botName << " attack/transfer " << ownedRegions[i] << " " << regions[ownedRegions[i]].getNeighbors()[temp] << " " << 4 << ",";
+        //         regions[ownedRegions[i]].setArmies(regions[ownedRegions[i]].getArmies()-4;
+        //     }
+        // }
+        // cout << "\n";
     }
     phase.clear();
 }
@@ -226,12 +288,26 @@ int maxVal(vector<double> vec)
     }
     return result;
 }
+bool noEnemies(int reg)
+{
+    int j;
+    for(j = 0; j < regions[reg].getNeighbors().size();j++)
+    {
+        if(regions[reg].getNeighbors()[j].getOwner != botName)
+            return false;
+    }
+    return true;
+}
 void Bot::updateRegion(unsigned noRegion, string playerName, int nbArmies)
 {
     regions[noRegion].setArmies(nbArmies);
     regions[noRegion].setOwner(playerName);
     if (playerName == botName)
     {
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7847fe4b8419449f4f35357b690a063b5509b54e
         ownedRegions.push_back(noRegion);
     }
 }

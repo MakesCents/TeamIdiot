@@ -21,9 +21,7 @@ class Bot
     vector<int> startingRegionsreceived;
     vector<int> ownedRegions;
     vector<int> edgeRegions;
-    int randomes[100];
     int armiesLeft;
-    int randCount;
     Parser parser;
     string phase;
     double superRegionModify[6];
@@ -49,6 +47,7 @@ class Bot
     void executeAction();
     void updateRegion(unsigned noRegion, string playerName, int nbArmies);
     void resetRegionsOwned();
+    bool noEnemies(int reg);
 
     private:
 };
