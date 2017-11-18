@@ -8,10 +8,10 @@ using namespace std;
 int main(int argc, char *argv[])
 {
     cout.sync_with_stdio(0);
-    ifstream inFile;
+    ifstream myFile;
 
-    inFile.open("file.txt");
-    if(!inFile)
+    myFile.open("PATH\\file.txt");
+    if(!myFile)
     {
         cout << "Unable to open file";
         exit(1);
@@ -19,5 +19,14 @@ int main(int argc, char *argv[])
 
     Bot bot;
     bot.playGame();
+
+    ofstream myFile("file.txt");
+    if(myFile.is_open())
+    {
+        myFile << "Write here\n";
+        myFile.close();
+    }
+    else cout << "Unable to open file";
+
     return 0;
 }
