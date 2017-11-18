@@ -232,7 +232,6 @@ void Bot::updateRegion(unsigned noRegion, string playerName, int nbArmies)
     regions[noRegion].setOwner(playerName);
     if (playerName == botName)
     {
-        
         ownedRegions.push_back(noRegion);
     }
 }
