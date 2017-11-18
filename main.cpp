@@ -8,14 +8,16 @@ using namespace std;
 int main(int argc, char *argv[])
 {
     cout.sync_with_stdio(0);
-    ifstream myFile;
-
-    myFile.open("PATH\\file.txt");
-    if(!myFile)
+    
+    ifstream myFile ("file.txt");
+    if (myFile.is_open())
     {
-        cout << "Unable to open file";
-        exit(1);
+        while (getline (myFile, line))
+        {
+            cout << line << '\n';
+        }
     }
+    else cout << "Unable to open file";
 
     Bot bot;
     bot.playGame();
