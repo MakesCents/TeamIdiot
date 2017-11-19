@@ -8,11 +8,12 @@ Region::Region()
     //ctor
 }
 
-Region::Region(int pId, int pSuperRegion)
+Region::Region(int pId, int pSuperRegion, double startPriority, double importance)
 {
     this->superRegion = pSuperRegion;
     id = pId;
-    startPriority = 1;
+    this->startPriority = startPriority;
+    this->importance = importance;
 }
 
 Region::~Region()

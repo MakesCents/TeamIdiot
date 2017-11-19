@@ -11,6 +11,8 @@
 #include "Region.h"
 #include "SuperRegion.h"
 using namespace std;
+#define MAX_REGIONS 42
+
 class Bot
 {
     ifstream in;
@@ -25,6 +27,10 @@ class Bot
     Parser parser;
     string phase;
     double superRegionModify[6];
+    vector<double> i_startingPriorities;
+    vector<double> i_regionImportance;
+    double i_minOutcome;
+    double i_neutralMin;
     public:
         Bot();
         virtual ~Bot();

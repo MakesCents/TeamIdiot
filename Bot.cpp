@@ -52,8 +52,24 @@ void Bot::readInFile(char *argv[])
       exit(1);
     }
 
+    //err = fscanf(inpfl,"%d",placethinghere);//Do this for every thing you want to read in
+    
+    //get the initial priorities of each of the regions as starting locations
+    for (i = 0; i < MAX_REGIONS; i++){
+        i_startingPriorities.push_back(0.0);
+        err = fscanf(inpfl, "%d", i_startingPriorities[i]);
+    }
 
-    err = fscanf(inpfl,"%d",placethinghere);//Do this for every thing you want to read in
+    //get the importance for each region
+    for (i = 0; i < MAX_REGIONS; i++){
+        i_regionImportance.push_back(0.0);
+        err = fscanf(inpfl, "%d", i_regionImportance[i]);
+    } 
+
+    err = fscanf(inpfl, "%d", i_minOutcome);
+    
+    err = fscanf(inpf1, "%d", i_neutralMin);
+
 }
 void Bot::playGame(char *argv[])
 {   
@@ -76,7 +92,7 @@ void Bot::addRegion(unsigned noRegion, unsigned noSuperRegion)
         {
             regions.push_back(Region());
         }
-    regions[noRegion]  = Region(noRegion, noSuperRegion);
+    regions[noRegion]  = Region(noRegion, noSuperRegion, i_startingPriorities[noRegion], i_regionImportance[i]);
     superRegions[noSuperRegion].addRegion(noRegion);
 }
 void Bot::addNeighbors(unsigned noRegion, unsigned neighbors)
@@ -272,8 +288,12 @@ void Bot::executeAction()
                         {
                             modifiedResult = (expectedResult * importanceModifier * regions[currRegion].getImportance()/100) + expectedResult;
                         }
+<<<<<<< HEAD
 
                         if(modifiedResult >= minOutcome)
+=======
+                        if(modifiedResult >= i_minOutcome)
+>>>>>>> 625b087635f8f570a99c58237e0621fdc125f155
                         {
                             //find min number of troops unless this is the only neighbor and expected Result > 0
                             if((expectedResult > 0) && noEnemies(ownedRegions[i]) == 1)
@@ -298,7 +318,7 @@ void Bot::executeAction()
                                         modifiedResult = (expectedResult * importanceModifier * regions[currRegion].getImportance()/100) + expectedResult;
                                     }
                                     //check if next step violates thing
-                                    if(modifiedResult < minOutcome)
+                                    if(modifiedResult < i_minOutcome)
                                     {
                                         break;
                                     }
