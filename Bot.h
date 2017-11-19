@@ -11,6 +11,8 @@
 #include "Region.h"
 #include "SuperRegion.h"
 using namespace std;
+#define MAX_REGIONS 42
+
 class Bot
 {
     ifstream in;
@@ -25,6 +27,10 @@ class Bot
     Parser parser;
     string phase;
     double superRegionModify[6];
+    vector<double> i_startingPriorities;
+    vector<double> i_regionImportance;
+    double i_minOutcome;
+    double i_neutralMin;
     public:
         Bot();
         virtual ~Bot();
@@ -48,11 +54,8 @@ class Bot
     void updateRegion(unsigned noRegion, string playerName, int nbArmies);
     void resetRegionsOwned();
     bool noEnemies(int reg);
-<<<<<<< HEAD
     void readInFile(char *argv[]);
-=======
     void updateEdgeRegions(void);
->>>>>>> a6c4618be286f42e1536e0a22a956d94c87b6ce3
 
     private:
 };
