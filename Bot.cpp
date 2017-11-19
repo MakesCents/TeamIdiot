@@ -2,7 +2,6 @@
 #include <string>
 #include "Bot.h"
 
-superRegionModify = {1.1, 1.3, 1.0, 1.2, 0.9, 1.4}
 //Quick definition: when I say landlocked it means surrounded by allies. Not landlocked means there's at least 1
 // Enemy or neutral adjacent to the region.
 // Also superregion border is one of the x regions which holds the border between superregions
@@ -288,12 +287,7 @@ void Bot::executeAction()
                         {
                             modifiedResult = (expectedResult * importanceModifier * regions[currRegion].getImportance()/100) + expectedResult;
                         }
-<<<<<<< HEAD
-
-                        if(modifiedResult >= minOutcome)
-=======
                         if(modifiedResult >= i_minOutcome)
->>>>>>> 625b087635f8f570a99c58237e0621fdc125f155
                         {
                             //find min number of troops unless this is the only neighbor and expected Result > 0
                             if((expectedResult > 0) && noEnemies(ownedRegions[i]) == 1)
@@ -342,7 +336,7 @@ void Bot::executeAction()
                             cout << botName << " attack/transfer " << ownedRegions[i] << " " << regions[currRegion] << " " << 4 << ",";
                             regions[ownedRegions[i]].setArmies(regions[ownedRegions[i]].getArmies() - 4);
                         }//If important enough, then 
-                        else if(regions[ownedRegions[i]].getImportance() > neutralMin)
+                        else if(regions[ownedRegions[i]].getImportance() > i_neutralMin)
                         {
                             for(currentArmies = regions[ownedRegions[i]].getArmies()-1; currentArmies > 1; currentArmies--)
                             {
