@@ -225,7 +225,7 @@ void Bot::executeAction()
         //Consider every region
         for(i = 0; i < ownedRegions.size();i++)
         {
-            if(noEnemies(i) == true)
+            if(noEnemies(i) == 0)
             {
                 // transfer stuff
                 //Assume that all of the provinces have been assingned a threat value
@@ -272,10 +272,11 @@ void Bot::executeAction()
                         {
                             modifiedResult = (expectedResult * importanceModifier * regions[currRegion].getImportance()/100) + expectedResult;
                         }
+
                         if(modifiedResult >= minOutcome)
                         {
                             //find min number of troops unless this is the only neighbor and expected Result > 0
-                            if((expectedResult > 0) && (regions[ownedRegions[i]].getNeighbors().size() == 1))
+                            if((expectedResult > 0) && noEnemies(ownedRegions[i]) == 1)
                             {
                                 cout << botName << " attack/transfer " << ownedRegions[i] << " " << regions[currRegion] << " " << regions[ownedRegions[i]].getArmies - 1 << ",";
                                 regions[ownedRegions[i]].setArmies(1);
@@ -307,37 +308,48 @@ void Bot::executeAction()
                                 regions[ownedRegions[i]].setArmies(regions[ownedRegions[i]].getArmies() - currentArmies);
                             }
                         }
-                        else if(regions[currRegion].getOwner() == botName)
+                    }
+                    else if(regions[currRegion].getOwner() == botName)
+                    {
+                    // If an allied region, maybe do something?
+                    
+                    }
+                    else
+                    {
+                        // If neutral expand if it doesn't neighbor any enemies
+                        if(noEnemies(currRegion) == 0 && regions[ownedRegions[i]].getArmies() > 4)
                         {
-                        // If an allied region, maybe do something?
-                        
-                        }
-                        else
+                            cout << botName << " attack/transfer " << ownedRegions[i] << " " << regions[currRegion] << " " << 4 << ",";
+                            regions[ownedRegions[i]].setArmies(regions[ownedRegions[i]].getArmies() - 4);
+                        }//If important enough, then 
+                        else if(regions[ownedRegions[i]].getImportance() > neutralMin)
                         {
-                        // If neutral expand maybe
-                        
+                            for(currentArmies = regions[ownedRegions[i]].getArmies()-1; currentArmies > 1; currentArmies--)
+                            {
+                                //This chunk just for looking ahead, not current place
+                                expectedResult = (currentArmies * 0.6) - (regions[currRegion].getArmies() * 0.7);
+                                if(expectedResult < 0)
+                                {
+                                    modifiedResult = (expectedResult * -1 * importanceModifier * regions[currRegion].getImportance()/100) + expectedResult;
+                                }
+                                else
+                                {
+                                    modifiedResult = (expectedResult * importanceModifier * regions[currRegion].getImportance()/100) + expectedResult;
+                                }
+                                //check if next step violates thing
+                                if(modifiedResult < minOutcome)
+                                {
+                                    break;
+                                }
+                            }
                         }
                     }
                 }
             }
-        // std::srand(randomes[randCount++]);
-        // int i = 0;
-        // int temp = 0;
-        // for(i = 0; i < ownedRegions.size(); i++)
-        // {
-        //     if(regions[ownedRegions[i]].getArmies() > 3)
-        //     {
-        //         temp = std::rand() % regions[ownedRegions[i]].getNeighbors().size();
-        //         cout << botName << " attack/transfer " << ownedRegions[i] << " " << regions[ownedRegions[i]].getNeighbors()[temp] << " " << 4 << ",";
-        //         regions[ownedRegions[i]].setArmies(regions[ownedRegions[i]].getArmies()-4;
-        //     }
-        // }
-        // cout << "\n";
         }
-    phase.clear();
     }
+    phase.clear();
 }
-
 int maxVal(vector<double> vec)
 {
     int i = 0;
@@ -350,15 +362,15 @@ int maxVal(vector<double> vec)
     return result;
 }
 
-bool noEnemies(int reg)
+int noEnemies(int reg)
 {
-    int j;
+    int j, result;
     for(j = 0; j < regions[reg].getNeighbors().size();j++)
     {
-        if(regions[reg].getNeighbors()[j].getOwner != botName)
-            return false;
+        if(regions[reg].getNeighbors()[j].getOwner == opponentBotName)
+            result++;
     }
-    return true;
+    return result;
 }
 
 void Bot::updateRegion(unsigned noRegion, string playerName, int nbArmies)
