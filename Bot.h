@@ -48,7 +48,11 @@ class Bot
     void updateRegion(unsigned noRegion, string playerName, int nbArmies);
     void resetRegionsOwned();
     bool noEnemies(int reg);
+<<<<<<< HEAD
     void readInFile(char *argv[]);
+=======
+    void updateEdgeRegions(void);
+>>>>>>> a6c4618be286f42e1536e0a22a956d94c87b6ce3
 
     private:
 };

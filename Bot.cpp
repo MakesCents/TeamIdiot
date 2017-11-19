@@ -188,6 +188,8 @@ void Bot::executeAction()
         int i = 0;
         // Vector which keeps track of all 
         vector<double> edgeRegionThreat;
+        //Update at the start of the turn all of the regions which are neighbor to an enemy
+        updateEdgeRegion();
         while(armiesLeft > 0)
         {
             for(i = 0; i < edgeRegions.size(); i++)
@@ -195,7 +197,7 @@ void Bot::executeAction()
                 edgeRegionThreat[i] = 0;
                 for(j = 0; j < regions[edgeRegions[i]].getNeighbors().size(); j++)
                 {
-                    if(regions[regions[edgeRegions[i]].getNeighbors()[j]].getOwner() == opponentBotName)
+                    if(regions[regions[edgeRegions[i]].getNeighbors()[j]].getOwner() != botName)
                     {
                         edgeRegionThreat[i] += (regions[regions[edgeRegions[i]].getNeighbors()[j]].getArmies())/regions[edgeRegions[i]].getArmies;
                     }
@@ -335,6 +337,7 @@ void Bot::executeAction()
     phase.clear();
     }
 }
+
 int maxVal(vector<double> vec)
 {
     int i = 0;
@@ -346,6 +349,7 @@ int maxVal(vector<double> vec)
     }
     return result;
 }
+
 bool noEnemies(int reg)
 {
     int j;
@@ -356,23 +360,22 @@ bool noEnemies(int reg)
     }
     return true;
 }
+
 void Bot::updateRegion(unsigned noRegion, string playerName, int nbArmies)
 {
     regions[noRegion].setArmies(nbArmies);
     regions[noRegion].setOwner(playerName);
     if (playerName == botName)
     {
-<<<<<<< HEAD
-=======
-
->>>>>>> 7847fe4b8419449f4f35357b690a063b5509b54e
         ownedRegions.push_back(noRegion);
     }
 }
+
 void Bot::addArmies(unsigned noRegion,int nbArmies)
 {
     regions[noRegion].setArmies(regions[noRegion].getArmies() + nbArmies);
 }
+
 void Bot::moveArmies(unsigned noRegion,unsigned toRegion,int nbArmies)
 {
     if (regions[noRegion].getOwner() == regions[toRegion].getOwner()
@@ -391,4 +394,16 @@ void Bot::moveArmies(unsigned noRegion,unsigned toRegion,int nbArmies)
 void Bot::resetRegionsOwned()
 {
     ownedRegions.clear();
+}
+
+void updateEdgeRegion(){
+    int i, j;
+    edgeRegions.clear();
+    for (i = 0; i < ownedRegions.size(); i++){
+        for (j = 0; j < regions[ownedRegions[i]].getNeighbors().size(); j++){
+            if (regions[regions[ownedRegions[i]].getNeighbors()[j]].getOwner() != botName){
+                edgeRegions.push_back(ownedRegions[i]);
+            }
+        }
+    }
 }
