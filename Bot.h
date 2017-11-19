@@ -48,6 +48,7 @@ class Bot
     void updateRegion(unsigned noRegion, string playerName, int nbArmies);
     void resetRegionsOwned();
     bool noEnemies(int reg);
+    void updateEdgeRegions(void);
 
     private:
 };
