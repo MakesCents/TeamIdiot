@@ -14,6 +14,7 @@ class Region
     int armies;
     double startPriority;
     double roundThreat;
+    double importance;
     public:
         Region();
         Region(int pId,int superRegion);
@@ -27,6 +28,9 @@ class Region
         vector<int>& getNeighbors();
         void setStartPriority(double priority);
         double getStartPriority();
+        double getThreat();
+        void setImportance(double Importance);
+        double getImportance();
 
     protected:
     private:

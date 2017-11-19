@@ -65,3 +65,12 @@ double Region::getThreat(){
 void Region::setThreat(double threat){
     roundThreat = threat;
 }
+
+void Region::setImportance(double Importance)
+{
+    importance = Importance;
+}
+double Region::getImportance()
+{
+    return importance;
+}
