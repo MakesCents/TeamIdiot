@@ -65,7 +65,7 @@ void Bot::readInFile(char *argv[])
         i_regionImportance.push_back(0.0);
         err = fscanf(inpfl, "%d", i_regionImportance[i]);
     } 
-
+    
     err = fscanf(inpfl, "%d", i_minOutcome);
     
     err = fscanf(inpf1, "%d", i_neutralMin);
@@ -161,7 +161,7 @@ void Bot::executeAction()
         {
             //Assume that starting score values are determined outside of program and passed as a parameter to each 
             // Region when it is created
-           startScore[i] = getStartPriority(startingRegionsreceived[i]); //STILL HAVE TO ADD CODE TO READ IN VALUES FOR PRIORITY/SCORE WHEN REGION IS CREATED
+           startScore[i] = getStartPriority(regions[startingRegionsreceived[i]]);
             
         }
 
