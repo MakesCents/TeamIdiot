@@ -31,6 +31,7 @@ class Bot
     vector<double> i_regionImportance;
     double i_minOutcome;
     double i_neutralMin;
+    double i_importanceModifier;
     public:
         Bot();
         virtual ~Bot();
@@ -53,9 +54,9 @@ class Bot
     void executeAction();
     void updateRegion(unsigned noRegion, string playerName, int nbArmies);
     void resetRegionsOwned();
-    bool noEnemies(int reg);
+    int noEnemies(int reg);
     void readInFile(char *argv[]);
-    void updateEdgeRegions(void);
+    void updateEdgeRegion(void);
 
     private:
 };

@@ -17,7 +17,7 @@ class Region
     double importance;
     public:
         Region();
-        Region(int pId,int superRegion);
+        Region(int pId,int superRegion, double startPriority, double importance);
         virtual ~Region();
         void addNeighbors(int Neighbors);
         void setArmies(int nbArmies);
@@ -27,8 +27,9 @@ class Region
         int getSuperRegion();
         vector<int>& getNeighbors();
         void setStartPriority(double priority);
-        double getStartPriority();
+        double getStartPriority(void);
         double getThreat();
+        void setThreat(double);
         void setImportance(double Importance);
         double getImportance();
 
