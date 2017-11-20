@@ -53,10 +53,10 @@ vector<int>& Region::getNeighbors()
 }
 
 double Region::getStartPriority(){
-    return priority;
+    return startPriority;
 }
 void Region::setStartPriority(double priority){
-    startPriority = priority;
+    startPriority = startPriority;
 }
 
 double Region::getThreat(){

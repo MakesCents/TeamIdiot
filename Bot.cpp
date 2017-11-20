@@ -242,7 +242,7 @@ void Bot::executeAction()
     //For attacking we should 
     if (phase == "attack/transfer")
     {
-        int i, j, currRegion;
+        int i, j, currRegion, currentArmies;
         double expectedResult;
         double modifiedResult;
         //Consider every region
@@ -300,7 +300,7 @@ void Bot::executeAction()
                             //find min number of troops unless this is the only neighbor and expected Result > 0
                             if((expectedResult > 0) && noEnemies(ownedRegions[i]) == 1)
                             {
-                                cout << botName << " attack/transfer " << ownedRegions[i] << " " << regions[currRegion] << " " << regions[ownedRegions[i]].getArmies - 1 << ",";
+                                cout << botName << " attack/transfer " << ownedRegions[i] << " " << currRegion << " " << regions[ownedRegions[i]].getArmies() - 1 << ",";
                                 regions[ownedRegions[i]].setArmies(1);
                             }
                             else
@@ -326,7 +326,7 @@ void Bot::executeAction()
                                     }
                                 }
                                 //Attack with minimum needed
-                                cout << botName << " attack/transfer " << ownedRegions[i] << " " << regions[currRegion] << " " << currentArmies << ",";
+                                cout << botName << " attack/transfer " << ownedRegions[i] << " " << currRegion << " " << currentArmies << ",";
                                 regions[ownedRegions[i]].setArmies(regions[ownedRegions[i]].getArmies() - currentArmies);
                             }
                         }
@@ -341,7 +341,7 @@ void Bot::executeAction()
                         // If neutral expand if it doesn't neighbor any enemies
                         if(noEnemies(currRegion) == 0 && regions[ownedRegions[i]].getArmies() > 4)
                         {
-                            cout << botName << " attack/transfer " << ownedRegions[i] << " " << regions[currRegion] << " " << 4 << ",";
+                            cout << botName << " attack/transfer " << ownedRegions[i] << " " << currRegion << " " << 4 << ",";
                             regions[ownedRegions[i]].setArmies(regions[ownedRegions[i]].getArmies() - 4);
                         }//If important enough, then 
                         else if(regions[ownedRegions[i]].getImportance() > i_neutralMin)
@@ -359,7 +359,7 @@ void Bot::executeAction()
                                     modifiedResult = (expectedResult * i_importanceModifier * regions[currRegion].getImportance()/100) + expectedResult;
                                 }
                                 //check if next step violates thing
-                                if(modifiedResult < minOutcome)
+                                if(modifiedResult < i_minOutcome)
                                 {
                                     break;
                                 }
@@ -372,7 +372,7 @@ void Bot::executeAction()
     }
     phase.clear();
 }
-int maxVal(vector<double> vec)
+int Bot::maxVal(vector<double> vec)
 {
     int i = 0;
     int result = 0;
@@ -384,12 +384,12 @@ int maxVal(vector<double> vec)
     return result;
 }
 
-int noEnemies(int reg)
+int Bot::noEnemies(int reg)
 {
     int j, result;
     for(j = 0; j < regions[reg].getNeighbors().size();j++)
     {
-        if(regions[reg].getNeighbors()[j].getOwner == opponentBotName)
+        if(regions[regions[reg].getNeighbors()[j]].getOwner() != botName)
             result++;
     }
     return result;
@@ -430,7 +430,7 @@ void Bot::resetRegionsOwned()
     ownedRegions.clear();
 }
 
-void updateEdgeRegion(void){
+void  Bot::updateEdgeRegion(void){
     int i, j;
     edgeRegions.clear();
     for (i = 0; i < ownedRegions.size(); i++){

@@ -29,6 +29,7 @@ class Region
         void setStartPriority(double priority);
         double getStartPriority(void);
         double getThreat();
+        void setThreat(double);
         void setImportance(double Importance);
         double getImportance();
 
