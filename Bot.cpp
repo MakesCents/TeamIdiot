@@ -161,7 +161,6 @@ void Bot::executeAction()
             //Assume that starting score values are determined outside of program and passed as a parameter to each 
             // Region when it is created
            startScore[i] = getStartPriority(regions[startingRegionsreceived[i]]);
-            
         }
 
         for (i = 0; i < startScore.size; i++){
@@ -326,7 +325,6 @@ void Bot::executeAction()
                     else if(regions[currRegion].getOwner() == botName)
                     {
                     // If an allied region, maybe do something?
-                    
                     }
                     else
                     {

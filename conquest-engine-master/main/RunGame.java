@@ -78,7 +78,7 @@ public class RunGame
 
 	private void go() throws IOException, InterruptedException
 	{
-		System.out.println("starting game " + gameId);
+		//System.out.println("starting game " + gameId);
 		
 		Map initMap, map;
 		Player player1, player2;
@@ -483,6 +483,13 @@ public class RunGame
 		//if(winner != null) {
 		//	winnerId = winner.getName() == playerName1 ? bot1ObjectId : bot2ObjectId;
 		//}
+		if(winner = null){
+			System.out.println(0);
+		}else if(winner.getName() == "player1"){
+			System.out.println(1);
+		}else{
+			System.out.println(-1);
+		}
 
         System.out.println(score);
 		//create game directory

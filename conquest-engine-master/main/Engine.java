@@ -77,7 +77,11 @@ public class Engine {
 		fullPlayedGame.add(null); //indicates round end	
 		player1PlayedGame.add(null);
 		player2PlayedGame.add(null);
-		roundNr++;	
+		roundNr++;
+		if((roundNr % 5) == 0){
+			System.out.println(map.ownedRegionsByPlayer(player1).size());
+			System.out.println(map.ownedRegionsByPlayer(player2).size());
+		}
 	}
 	
 	public void distributeStartingRegions()

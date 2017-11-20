@@ -1,2 +1,0 @@
-Error: Could not find or load main class main.RunGame
-Caused by: java.lang.ClassNotFoundException: main.RunGame
