@@ -38,6 +38,7 @@ Bot::~Bot()
 }
 void Bot::readInFile(char *argv[])
 {
+    /*
     char *Ifile;
     int  nameLength = (int) strlen(argv[1]);
     Ifile = (char *) calloc(nameLength + 1, sizeof(char));
@@ -51,10 +52,11 @@ void Bot::readInFile(char *argv[])
       printf("error in opening file %s \n", Ifile);
       exit(1);
     }
-
+    */
     //err = fscanf(inpfl,"%d",placethinghere);//Do this for every thing you want to read in
     
     //get the initial priorities of each of the regions as starting locations
+    int i;
     for (i = 0; i < MAX_REGIONS; i++){
         i_startingPriorities.push_back(0.0);
         //err = fscanf(inpfl, "%d", i_startingPriorities[i]);
@@ -174,7 +176,7 @@ void Bot::executeAction()
         for (i = 0; i < 6; i++){
             for (j = 0; j < 6; j++){
                 index = 0;
-                if (startScore[j] > startScore[index]){
+                if (startScore[j] > startScore[i]){
                     index = j;
                 }
             }
