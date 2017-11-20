@@ -174,8 +174,9 @@ void Bot::executeAction()
         }
 
         for (i = 0; i < 6; i++){
+            index = 0;
             for (j = 0; j < 6; j++){
-                index = 0;
+                
                 if (startScore[j] > startScore[i]){
                     index = j;
                 }
@@ -211,6 +212,7 @@ void Bot::executeAction()
         //Consider number of troops, value of region, threat it feels
         int i = 0;
         int j;
+        
         // Vector which keeps track of all 
         vector<double> edgeRegionThreat;
         //Update at the start of the turn all of the regions which are neighbor to an enemy
