@@ -38,7 +38,7 @@ Bot::~Bot()
 }
 void Bot::readInFile(char *argv[])
 {
-    /*
+    
     char *Ifile;
     int  nameLength = (int) strlen(argv[1]);
     Ifile = (char *) calloc(nameLength + 1, sizeof(char));
@@ -52,31 +52,27 @@ void Bot::readInFile(char *argv[])
       printf("error in opening file %s \n", Ifile);
       exit(1);
     }
-    */
+    
     //err = fscanf(inpfl,"%d",placethinghere);//Do this for every thing you want to read in
     
     //get the initial priorities of each of the regions as starting locations
     int i;
     for (i = 0; i < MAX_REGIONS; i++){
         i_startingPriorities.push_back(0.0);
-        //err = fscanf(inpfl, "%d", i_startingPriorities[i]);
-        i_startingPriorities[i] = rand() % 100 + 1;
+        err = fscanf(inpfl, "%d", i_startingPriorities[i]);
     }
 
     //get the importance for each region
     for (i = 0; i < MAX_REGIONS; i++){
         i_regionImportance.push_back(0.0);
-        //err = fscanf(inpfl, "%d", i_regionImportance[i]);
-        i_regionImportance[i] = rand() % 100 + 1;
+        err = fscanf(inpfl, "%d", i_regionImportance[i]);
     } 
     
-    //err = fscanf(inpfl, "%d", i_minOutcome);
-    i_minOutcome = rand() % 100 + 1;
+    err = fscanf(inpfl, "%d", i_minOutcome);
 
-    //err = fscanf(inpf1, "%d", i_neutralMin);
-    i_neutralMin = rand() % 100 + 1;
+    err = fscanf(inpf1, "%d", i_neutralMin);
 
-    i_importanceModifier = rand() % 100 + 1;
+    err = fscanf(inpf1, "%d", i_importanceModifier);
 
 }
 void Bot::playGame(char *argv[])
@@ -159,9 +155,8 @@ void Bot::executeAction()
         // they can be defended easier)
         //Step 3. Increase the value depending on how many shared super-regions you have
         //(Having 2 in NA is more important than having 1 in Au and 1 in SA possibly)
-        double startScore[6];
-        int startRegionIndex[6];
-        int countShared[6] = {0, 0, 0, 0, 0, 0};
+        double startScore[12];
+        int startRegionIndex[12];
         unsigned i,nbAns=0;
         unsigned j = 0;
         unsigned index = 0;
@@ -169,17 +164,13 @@ void Bot::executeAction()
         {
             //Assume that starting score values are determined outside of program and passed as a parameter to each 
             // Region when it is created
-<<<<<<< HEAD
-           startScore[i] = getStartPriority(regions[startingRegionsreceived[i]]);
-=======
            startScore[i] = regions[startingRegionsreceived[i]].getStartPriority();
             
->>>>>>> hardcode
         }
 
-        for (i = 0; i < 6; i++){
+        for (i = 0; i < 12; i++){
             index = 0;
-            for (j = 0; j < 6; j++){
+            for (j = 0; j < 12; j++){
                 
                 if (startScore[j] > startScore[i]){
                     index = j;
@@ -223,9 +214,10 @@ void Bot::executeAction()
         updateEdgeRegion();
         while(armiesLeft > 0)
         {
+            
             for(i = 0; i < edgeRegions.size(); i++)
             {
-                edgeRegionThreat[i] = 0;
+                edgeRegionThreat.push_back(0);
                 for(j = 0; j < regions[edgeRegions[i]].getNeighbors().size(); j++)
                 {
                     if(regions[regions[edgeRegions[i]].getNeighbors()[j]].getOwner() != botName)
@@ -234,7 +226,8 @@ void Bot::executeAction()
                     }
                 }
             }
-            cout << botName << " place_armies " << ownedRegions[maxVal(edgeRegionThreat)] << " " << 1 << ",";
+           
+            cout << botName << " place_armies " << ownedRegions[maxVal(edgeRegionThreat)] << " " << 1 << ", ";
             setArmiesLeft(--armiesLeft);
         }
         cout << "\n";
@@ -370,12 +363,14 @@ void Bot::executeAction()
                                 {
                                     break;
                                 }
+                                cout << botName << " attack/transfer " << ownedRegions[i] << " " << currRegion << " " << currentArmies << ",";
                             }
                         }
                     }
                 }
             }
         }
+        cout << botName << " attack/transfer " << ownedRegions[0] << " " << regions[ownedRegions[0]].getNeighbors()[0] << " 0  \n";
     }
     phase.clear();
 }
