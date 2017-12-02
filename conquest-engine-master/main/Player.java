@@ -37,7 +37,6 @@ public class Player {
 	public void setArmiesLeft(int n) {
 		armiesLeft = n;
 	}
-	
 	/**
 	 * @return The String name of this Player
 	 */

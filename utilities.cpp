@@ -7,15 +7,16 @@ int currRand;
 void rawStat(void);
 void incrementRandom(double seed);
 double f_random(void);
+void storeChromosome(POPULATION *p, Indv ind, int index);
 
 void randomize(POPULATION *p)
 {
     int err;
-    err = printf("Enter seed ebtween 0.0 and 1.0: ");
+    err = printf("Enter seed between 0.0 and 1.0: ");
     err = scanf("%lf", &p->randomseed);
     while( p->randomseed < 0.0 || p->randomseed > 1.0)
     {
-        err = printf("Enter seed ebtween 0.0 and 1.0: ");
+        err = printf("Enter seed between 0.0 and 1.0: ");
         err = scanf("%lf", &p->randomseed);
     }
     incrementRandom(p->randomseed);
@@ -119,6 +120,7 @@ void report(int gen, POPULATION *p, Indv pop)
 
 void rawStat(FILE *fp, POPULATION *p, Indv pop)
 {
+    printf("HI!");
     int err;
     err = fprintf(fp, " %3d, %10.2lf %10.2lf %10.2lf ", p->gen, p->max, p->avg, p->min);
     err = fprintf(fp, " %3d, %10.2lf %3d ", p->highestEverGen, p->highestEverFitness, p->highestEverIndex, p->min);
@@ -155,6 +157,18 @@ void statistics(POPULATION *p, Indv pop)
         p->highestEverFitness = p->max;
         p->highestEverGen = p->gen;
         p->highestEverIndex = p->maxi;
+    }
+    storeChromosome(p, pop, p->maxi);
+}
+
+void storeChromosome(POPULATION *p, Indv ind, int index)
+{
+    std::ofstream myfile;
+    myfile.open("BestIndividual");
+    int i;
+    for(i = 0; i < p->chromL; i++)
+    {
+        myfile << ind->chrom[i] << "\n";
     }
 }
 

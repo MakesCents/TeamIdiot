@@ -1,5 +1,0 @@
-Exception in thread "main" java.lang.NullPointerException
-	at main.RunGame.saveGame(RunGame.java:488)
-	at main.RunGame.finish(RunGame.java:146)
-	at main.RunGame.go(RunGame.java:130)
-	at main.RunGame.main(RunGame.java:65)

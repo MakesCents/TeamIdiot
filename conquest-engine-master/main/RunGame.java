@@ -42,13 +42,15 @@ import move.PlaceArmiesMove;
 //mport com.mongodb.BasicDBObject;
 //mport com.mongodb.DBCursor;
 //mport com.mongodb.ServerAddress;
-
 public class RunGame
 {
 	LinkedList<MoveResult> fullPlayedGame;
 	LinkedList<MoveResult> player1PlayedGame;
 	LinkedList<MoveResult> player2PlayedGame;
+	int[] player1Count = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+	int[] player2Count = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 	int gameIndex = 1;
+	int index;
 
 	String playerName1, playerName2;
 	final String gameId,
@@ -74,6 +76,7 @@ public class RunGame
 		this.bot2Dir = args[4];
 		this.playerName1 = "player1";
 		this.playerName2 = "player2";
+		this.index = 0;
 	}
 
 	private void go() throws IOException, InterruptedException
@@ -120,6 +123,10 @@ public class RunGame
 		{
 			bot1.addToDump("Round " + this.engine.getRoundNr() + "\n");
 			bot2.addToDump("Round " + this.engine.getRoundNr() + "\n");
+			if(this.engine.getRoundNr() % 5 == 0){
+				player1Count[index] = map.ownedRegionsByPlayer(player1).size();
+				player2Count[index++] = map.ownedRegionsByPlayer(player2).size();
+			}
 			this.engine.playRound();
 		}
 
@@ -471,19 +478,11 @@ public class RunGame
 		Player winner = this.engine.winningPlayer();
 		int score = this.engine.getRoundNr() - 1;
 
-		//DBCollection coll = db.getCollection("games");
-
-		//DBObject queryDoc = new BasicDBObject()
-			//.append("_id", new ObjectId(gameId));
-
-		//ObjectId bot1ObjectId = new ObjectId(bot1Id);
-		//ObjectId bot2ObjectId = new ObjectId(bot2Id);
-
-		//ObjectId winnerId = null;
-		//if(winner != null) {
-		//	winnerId = winner.getName() == playerName1 ? bot1ObjectId : bot2ObjectId;
-		//}
-		if(winner = null){
+		for(int i = 0; i < 20; i++){
+			System.out.println(player1Count[i]);
+			System.out.println(player2Count[i]);
+		}
+		if(winner == null){
 			System.out.println(0);
 		}else if(winner.getName() == "player1"){
 			System.out.println(1);

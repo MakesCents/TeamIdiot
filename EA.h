@@ -55,7 +55,8 @@ struct POPULATION{
 
 };
 
-void initialize(char *argv[], POPULATION *p);
+void dataInit(POPULATION *p, int popS, int mGen, int Cro, int pMu, char* of);
+void initialize(POPULATION *p);
 void generation(POPULATION *p, int gen);
 void report(int gen, POPULATION *p, Indv pop);
 void statistics(POPULATION *p, Indv pop);
@@ -63,7 +64,6 @@ void randomize(POPULATION *p);
 void rawStat(FILE *fp, POPULATION *p, Indv pop);
 fitStruct eval(POPULATION *p, Indv p1, Indv p2);
 int coinFlip(double chance);
-void dataInit(char *inputFile, POPULATION *p);
 void populationInit(POPULATION *p);
 void reportInit(POPULATION *p);
 double generateRandom(int low, int high);

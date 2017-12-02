@@ -34,7 +34,8 @@ public class Engine {
 	private Player player2;
 	private Map map;
 	private Parser parser;
-	private int roundNr;
+	private static int roundNr;
+	//private static int roundIndex;
 	private LinkedList<MoveResult> fullPlayedGame;
 	private LinkedList<MoveResult> player1PlayedGame;
 	private LinkedList<MoveResult> player2PlayedGame;
@@ -78,10 +79,6 @@ public class Engine {
 		player1PlayedGame.add(null);
 		player2PlayedGame.add(null);
 		roundNr++;
-		if((roundNr % 5) == 0){
-			System.out.println(map.ownedRegionsByPlayer(player1).size());
-			System.out.println(map.ownedRegionsByPlayer(player2).size());
-		}
 	}
 	
 	public void distributeStartingRegions()

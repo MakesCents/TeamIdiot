@@ -3,3 +3,11 @@ out.txt
 conquest-engine-master/bin/err.txt
 infile
 conquest-engine-master/bin/sources.txt
+.vscode/launch.json
+infile1
+infile2
+oFile
+parameters
+sources.txt
+a.exe
+err.txt

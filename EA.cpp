@@ -1,13 +1,13 @@
 /* This is where you initialize everything and call stuff */
 #include "EA.h"
 
-int main(int argc, char *argv[])
+int main()
 {
     Indv tmp, olP, newP;
     POPULATION population;
     POPULATION *p = &population;
     p->gen = 0;
-    initialize(argv, p);
+    initialize(p);
     while(p->gen < p->maxGen)
     {
         p->gen++;
@@ -18,46 +18,35 @@ int main(int argc, char *argv[])
         p->oldP = p->newP;
         p->newP = tmp;
     }
+
     return 0;
 }
 
-void initialize(char *argv[], POPULATION *p)
+void initialize(POPULATION *p)
 {
-    char *Ifile;
-    int nameLength = (int) strlen(argv[1]);
-    Ifile = (char *) calloc(nameLength + 1, sizeof(char));
-    strcpy(Ifile, argv[1]);
-
-    dataInit(Ifile, p);
+    char oF[] = "oFile";
+    dataInit(p, 20, 10, 50, 50, oF);
+    printf("After data\n");
     populationInit(p);
+    printf("After pop\n");
     reportInit(p);
+    printf("After report\n");
 }
 
-void datInit(char * Ifile, POPULATION *p)
+void dataInit(POPULATION *p, int popS, int mGen, int pCro, int pMu, char* of)
 {
-    int i;
-    FILE *inpfl;
-    char tmp[1024];
-    int err;
-    if( (inpfl = fopen(Ifile,"r")) == NULL){
-        printf("error in opening file %s \n", Ifile);
-        exit(1);
-    }
-    err=fscanf(inpfl, "%d", &p->popSize);
+    p->popSize = popS;
     if(p->popSize % 2 != 0)
     {
         p->popSize++;
     }
     p->chromL = 87;
-    err = fscanf(inpfl, "%d", &p->maxGen);
-    err = fscanf(inpfl, "%d", &p->pCross);
-    err = fscanf(inpfl, "%d", &p->pMut);
-    err = fscanf(inpfl, "%s", tmp);
-    p->ofile = (char*) calloc((int) strlen(tmp)+1, sizeof(char));
-    strcpy(p->ofile, tmp);
-    printf("Save file is %s\n", p->ofile);
+    p->maxGen = mGen;
+    p->pCross = pCro;
+    p->pMut = pMu;
+    p->ofile = (char*) calloc((int) strlen(of)+1, sizeof(char));
+    strcpy(p->ofile, of);
 
-    fclose(inpfl);
     printf("\n");
     randomize(p);
     p->highestEverFitness = 0.0;
@@ -74,7 +63,7 @@ void populationInit(POPULATION *p)
     fitStruct fit;
     p->oldP = (Indv) calloc(p->popSize, sizeof(INDIVIDUAL));
     p->newP = (Indv) calloc(p->popSize, sizeof(INDIVIDUAL));
-    for(i = 0; i < p->popSize-1; i+=2)
+    for(i = 0; i < (p->popSize-1); i+=2)
     {
         pi1 = &(p->oldP[i]);
         pi1->chrom = (double *) calloc (p->chromL, sizeof(double));
@@ -102,6 +91,7 @@ void populationInit(POPULATION *p)
 void reportInit(POPULATION *p)
 {
     FILE *fp;
+    
     printf("Population size %d\n", p->popSize);
     printf("Chromosome length used %d\n", p->chromL);
     printf("Max num of generations %d\n", p->maxGen);
