@@ -27,8 +27,8 @@ fitStruct eval(POPULATION *p, Indv p1, Indv p2)
     myfile.close();
     myfile2.close();
     std::ifstream inFile ("out.txt");
-    bool asteriskSeen = false;
-    bool tracker = false;
+    int asteriskSeen = 0;
+    int tracker = 0;
     int regionsHeld1[20];
     int regionsHeld2[20];
     int winner;
@@ -39,34 +39,26 @@ fitStruct eval(POPULATION *p, Indv p1, Indv p2)
     std::string line;
     if(inFile.is_open())
     {
+        getline(inFile, line);
+        getline(inFile, line);
         while( getline (inFile, line) )
         {
             const char *c = line.c_str();
-            if(i == -1)
+            if(line.at(0) == '*')
             {
-                i = -2;
+                asteriskSeen = 1;
                 continue;
             }
-            else if(i == -2)
-            {
-                i = 0;
-                continue;
-            }
-            if(line[0] == '*')
-            {
-                asteriskSeen = true;
-                i = 0;
-            }
-            if(tracker && !asteriskSeen)
+            if((tracker == 1) && (asteriskSeen == 0))
             {
                 sscanf(c, "%i", &(regionsHeld1[i]));
-                tracker = false;
+                tracker = 0;
             }
-            else if(tracker && !asteriskSeen)
+            else if((tracker == 0) && (asteriskSeen == 0))
             {
                 sscanf(c, "%i", &(regionsHeld2[i]));
                 i++;
-                tracker = true;
+                tracker = 1;
             }
             else if(asteriskSeen && i == 0)
             {
@@ -77,39 +69,41 @@ fitStruct eval(POPULATION *p, Indv p1, Indv p2)
             {
                 sscanf(c, "%i", &turns);
             }
-            if(turns == 100)
-            {
-                for(i = 0; i < 20; i++)
-                {
-                    fit1 = regionsHeld1[i] * (1 + (20 - i)/100);
-                    fit2 = regionsHeld2[i] * (1 + (20 - i)/100);
-                }
-            }
-            else if(winner == 1){
-                int tempTurns = (turns - (turns % 5)) / 5;
-                for(i = 0; i < tempTurns; i++)
-                {
-                    fit1 = regionsHeld1[i] * (1 + (20 - i)/100);
-                    fit2 = regionsHeld2[i] * (1 + (20 - i)/100);
-                }
-                fit1 *= 1.4 * (100-turns);
-            }
-            else
-            {
-                int tempTurns = (turns - (turns % 5)) / 5;
-                for(i = 0; i < tempTurns; i++)
-                {
-                    fit1 = regionsHeld1[i] * (1 + (20 - i)/100);
-                    fit2 = regionsHeld2[i] * (1 + (20 - i)/100);
-                }
-                fit2 *= 1.4 * (100-turns);
-            }
         }
         inFile.close();
     }
     else
     {
         printf("couldn't open the file :(\n");
+    }
+    fit1 = 0;
+    fit2 = 0;
+    if(turns == 100)
+    {
+        for(i = 0; i < 20; i++)
+        {
+                fit1 += (double)(regionsHeld1[i] * (20 - i));
+                fit2 += (double)(regionsHeld2[i] * (20 - i));
+        }
+    }
+    else if(winner == 1){
+        int tempTurns = (turns - (turns % 5)) / 5;
+        for(i = 0; i < tempTurns; i++)
+        {
+            fit1 += regionsHeld1[i] * (1 + ((20 - i)/100));
+            fit2 += regionsHeld2[i] * (1 + ((20 - i)/100));
+        }
+        fit1 *= 1.4 * (100-turns);
+    }
+    else
+    {
+        int tempTurns = (turns - (turns % 5)) / 5;
+        for(i = 0; i < tempTurns; i++)
+        {
+            fit1 += regionsHeld1[i] * (1 + ((20 - i)/100));
+            fit2 += regionsHeld2[i] * (1 + ((20 - i)/100));
+        }
+        fit2 *= 1.4 * (100-turns);
     }
     fitStruct result;
     result.fitness1 = fit1;

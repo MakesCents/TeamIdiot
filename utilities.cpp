@@ -120,11 +120,11 @@ void report(int gen, POPULATION *p, Indv pop)
 
 void rawStat(FILE *fp, POPULATION *p, Indv pop)
 {
-    printf("HI!");
     int err;
     err = fprintf(fp, " %3d, %10.2lf %10.2lf %10.2lf ", p->gen, p->max, p->avg, p->min);
     err = fprintf(fp, " %3d, %10.2lf %3d ", p->highestEverGen, p->highestEverFitness, p->highestEverIndex, p->min);
-    err = fprintf(fp, " %10.2lf\n", pop[p->maxi].fitness);
+    //printf("\nlul%d\n", p->maxi);
+    //err = fprintf(fp, " %10.2lf\n", pop[p->maxi].fitness);
 }
 
 void statistics(POPULATION *p, Indv pop)
@@ -158,7 +158,7 @@ void statistics(POPULATION *p, Indv pop)
         p->highestEverGen = p->gen;
         p->highestEverIndex = p->maxi;
     }
-    storeChromosome(p, pop, p->maxi);
+   // storeChromosome(p, pop, p->maxi);
 }
 
 void storeChromosome(POPULATION *p, Indv ind, int index)

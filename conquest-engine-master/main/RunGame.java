@@ -482,6 +482,7 @@ public class RunGame
 			System.out.println(player1Count[i]);
 			System.out.println(player2Count[i]);
 		}
+		System.out.println("*");
 		if(winner == null){
 			System.out.println(0);
 		}else if(winner.getName() == "player1"){

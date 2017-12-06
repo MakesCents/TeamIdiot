@@ -3,7 +3,7 @@
 
 int main()
 {
-    Indv tmp, olP, newP;
+    Indv tmp, oldP, newP;
     POPULATION population;
     POPULATION *p = &population;
     p->gen = 0;
@@ -85,6 +85,7 @@ void populationInit(POPULATION *p)
         pi1->parent2 = -1;
         pi2->parent1 = -1;
         pi2->parent2 = -1;
+        statistics(p, p->oldP);
     }
 }
 
@@ -98,9 +99,9 @@ void reportInit(POPULATION *p)
     printf("Crossover chance %lf\n", p->pCross);
     printf("Mutation chance %lf\n", p->pMut);
     printf("Generation 1 stats\n");
-    printf("Max fitness %lf\n", p->max);
-    printf("Average fitness %lf\n", p->avg);
-    printf("Min fitness %lf\n", p->min);
+    printf("Max fitness %f\n", p->max);
+    printf("Average fitness %f\n", p->avg);
+    printf("Min fitness %f\n", p->min);
 
     if((fp = fopen(p->ofile, "a")) == NULL)
     {
