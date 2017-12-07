@@ -26,6 +26,7 @@ class Bot
     int armiesLeft;
     Parser parser;
     string phase;
+    int indexx;
     double superRegionModify[6];
     vector<double> i_startingPriorities;
     vector<double> i_regionImportance;

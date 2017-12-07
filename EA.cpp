@@ -25,7 +25,7 @@ int main()
 void initialize(POPULATION *p)
 {
     char oF[] = "oFile";
-    dataInit(p, 20, 10, 50, 50, oF);
+    dataInit(p, 50, 100, 50, 50, oF);
     printf("After data\n");
     populationInit(p);
     printf("After pop\n");
@@ -110,6 +110,7 @@ void reportInit(POPULATION *p)
     }
     else
     {
+        fprintf(fp, "gen, max, avg, min, highestGen, highestFitness, highestIndex, min, maxIfitness");
         rawStat(fp, p, p->oldP);
         fclose(fp);
     }

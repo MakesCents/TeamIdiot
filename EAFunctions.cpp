@@ -23,7 +23,7 @@ fitStruct eval(POPULATION *p, Indv p1, Indv p2)
         myfile << p1->chrom[i] << "\n";
         myfile2 << p2->chrom[i] << "\n";
     }
-    system("cd conquest-engine-master;cd bin;java main.RunGame 0 0 0 \"gcc ../../main.cpp < infile1\" \"gcc ../../main.cpp < infile2\" 2>\"../../err.txt\" 1> \"../../out.txt\"");
+    system("cd conquest-engine-master;cd bin;java main.RunGame 0 0 0 \"Bot.exe\" \"Bot.exe\" 2>\"../../err.txt\" 1> \"../../out.txt\"");
     myfile.close();
     myfile2.close();
     std::ifstream inFile ("out.txt");

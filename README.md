@@ -33,3 +33,11 @@ java main.RunGame 0 0 0 "java bot.BotStarter" "gcc /path/to/TeamIdiot/main.cpp" 
 
 Also if you want to output (to out.txt) the score include this in saveGame (for example)
 System.out.println(this.engine.getRoundNr() - 1);
+
+
+oFile is the output from the EA used for a csv
+out.txt is output from a bot run from eval
+infile1 and infile2 are temporary input files
+bestIndividual is an input file which represents the best individual for later runs
+Bot.exe is g++ of all *.cpp except EA.cpp, EAFunctions.cpp, and utilities.cpp
+Executable ran is g++ of EA.cpp, EAFunctions.cpp and utilities.cpp
